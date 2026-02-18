@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Redirecting...</title>
+<script>
+(function(){
+  const path = location.pathname.split("/");
+  const id = path[path.length - 1];
+
+  if(id && id !== "404.html"){
+    location.replace("/v/?id=" + encodeURIComponent(id));
+  } else {
+    document.body.innerHTML =
+      "<h2 style='text-align:center;margin-top:40px'>Invalid video</h2>";
+  }
+})();
+</script>
+</head>
+<body></body>
+</html>
