@@ -1,0 +1,186 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Watch Video</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="icon" href="https://videy.co/favicon.ico">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  background:#fff;
+  color:#111;
+}
+
+/* TOP BAR */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 12px;
+  border-bottom:1px solid #eee;
+}
+.topbar span{font-size:18px;font-weight:700}
+
+/* SHARE */
+.share-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 14px;
+  border-radius:999px;
+  border:none;
+  background:#f3f4f6;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+}
+.share-btn:hover{background:#e5e7eb}
+.share-btn svg{width:18px;height:18px}
+
+/* VIDEO */
+.video-wrap{
+  width:100vw;
+  margin-left:calc(-50vw + 50%);
+  aspect-ratio:16/9;
+  background:#000;
+}
+video{
+  width:100%;
+  height:100%;
+  background:#000;
+  object-fit:contain;
+}
+
+/* CONTENT */
+.content{padding:10px 12px}
+
+/* BANNER */
+#ad-300x250{
+  width:300px;
+  height:250px;
+  margin:14px auto;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* FOOTER */
+.footer-links{
+  display:flex;
+  justify-content:center;
+  gap:24px;
+  padding:16px 0 22px;
+}
+.footer-links a{
+  font-size:12px;
+  color:#9ca3af;
+  text-decoration:none;
+}
+.footer-links a:hover{color:#111}
+
+@media(min-width:768px){
+  .video-wrap{
+    width:100%;
+    margin-left:0;
+    border-radius:12px;
+    overflow:hidden;
+  }
+  .content{max-width:900px;margin:auto}
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="topbar">
+  <span>Videy</span>
+  <button class="share-btn" id="shareBtn">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+      stroke="currentColor" stroke-width="2">
+      <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+      <polyline points="16 6 12 2 8 6"/>
+      <line x1="12" y1="2" x2="12" y2="15"/>
+    </svg>
+    Share video
+  </button>
+</div>
+
+<!-- VIDEO -->
+<div class="video-wrap">
+  <video id="video" controls playsinline preload="metadata"
+    controlsList="nodownload noplaybackrate"></video>
+</div>
+
+<div class="content">
+
+  <!-- BANNER -->
+  <div id="ad-300x250">
+    <script>
+      atOptions = {
+        'key' : 'e3390cf0a8cdf953ded85bdaaf3046a5',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+      };
+    </script>
+    <script src="https://braceslinear.com/e3390cf0a8cdf953ded85bdaaf3046a5/invoke.js"></script>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer-links">
+  <a href="https://braceslinear.com/d40w8mx5c?key=e15240371508f21838848c29a618630a">Terms of Service</a>
+  <a href="https://braceslinear.com/vytbpinkth?key=c12d8e4adc20e53b3071804836fd4575">Report Abuse</a>
+</div>
+
+<script>
+/* AMBIL ID VIDEO */
+const id = location.pathname.replace(/^\/+|\/+$/g,'').split('/')[0];
+if(!id){
+  document.body.innerHTML="<h2 style='text-align:center;margin-top:40px'>Video not found</h2>";
+  throw new Error("No video ID");
+}
+
+/* SET TITLE */
+document.title = "Watch " + id + " | Videy";
+
+/* LOAD VIDEO */
+const video = document.getElementById("video");
+video.src = "https://cdn.videy.co/" + id + ".mp4";
+
+/* SHARE */
+document.getElementById("shareBtn").onclick = () => {
+  if (navigator.share) {
+    navigator.share({ title: document.title, url: location.href });
+  } else {
+    navigator.clipboard.writeText(location.href);
+    alert("Link copied");
+  }
+};
+</script>
+
+   <!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,5009868,4,0,0,0,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?5009868&101" alt="" border="0"></a></noscript>
+<!-- Histats.com  END  -->
+
+</body>
+</html>
