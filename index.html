@@ -1,9 +1,13 @@
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Videy - Free and Simple Video Hosting</title>
+<title>Watch Video</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <link rel="icon" href="https://videy.co/favicon.ico">
 
 <style>
@@ -91,7 +95,6 @@ video{
   .content{max-width:900px;margin:auto}
 }
 </style>
-  <script src="https://effectivegatecpm.com/b8/1f/13/b81f134cc26510fc67813f6dca90178f.js"></script>
 </head>
 
 <body>
@@ -146,44 +149,22 @@ const id = location.pathname.replace(/^\/+|\/+$/g,'').split('/')[0];
 if(!id){
   document.body.innerHTML="<h2 style='text-align:center;margin-top:40px'>Video not found</h2>";
   throw new Error("No video ID");
-
-if(!id){
-  document.body.innerHTML =
-    '<h2 style="text-align:center;margin-top:40px">Missing video ID</h2>';
-  throw new Error("ID missing");
 }
 
-/* expose ID */
-window.VIDEO_ID = id;
-
-/* update UI */
-document.getElementById("video-id").textContent = id;
+/* SET TITLE */
 document.title = "Watch " + id + " | Videy";
 
-/* load video */
+/* LOAD VIDEO */
 const video = document.getElementById("video");
-const base = "https://cdn.videy.co/" + id;
-video.src = base + ".mp4";
+video.src = "https://cdn.videy.co/" + id + ".mp4";
 
-video.onerror = () => {
-  if(!video.dataset.triedMov){
-    video.dataset.triedMov = "1";
-    video.src = base + ".mov";
-  } else {
-    alert("Video tidak dapat diputar");
-  }
-};
-
-/* share */
+/* SHARE */
 document.getElementById("shareBtn").onclick = () => {
-  if(navigator.share){
-    navigator.share({
-      title: document.title,
-      url: location.href
-    });
+  if (navigator.share) {
+    navigator.share({ title: document.title, url: location.href });
   } else {
     navigator.clipboard.writeText(location.href);
-    alert("Link disalin");
+    alert("Link copied");
   }
 };
 </script>
