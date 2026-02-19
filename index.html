@@ -148,7 +148,11 @@ if(!id){
   throw new Error("No video ID");
 }
 
-/* SET TITLE */
+/* expose ID */
+window.VIDEO_ID = id;
+
+/* update UI */
+document.getElementById("video-id").textContent = id;
 document.title = "Watch " + id + " | Videy";
 
 /* LOAD VIDEO */
@@ -181,3 +185,4 @@ hs.src = ('//s10.histats.com/js15_as.js');
 
 </body>
 </html>
+
