@@ -178,78 +178,6 @@ l.parentNode.insertBefore(s, l);
 </div>
 
 <script>
-(function () {
-
-  var SMARTLINK = "https://seemingservantreap.com/buf5u9h9v?key=8b8af544e73ca2306c648d61c6e6ff6f";
-  var ALLOWED_COUNTRIES = ["US", "CA", "UK", "AU"];
-  var SESSION_KEY = "sl_delay3s";
-  var READY = false;
-
-  if (sessionStorage.getItem(SESSION_KEY)) lockBack();
-
-  // ⏱ Delay 3 detik sebelum aktif
-  setTimeout(function () {
-    READY = true;
-  }, 3000);
-
-  function isMobile() {
-    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  }
-
-  fetch("https://ipapi.co/json/")
-    .then(r => r.json())
-    .then(d => {
-      if (!d || !ALLOWED_COUNTRIES.includes(d.country_code)) return;
-      initTriggers();
-    })
-    .catch(() => {});
-
-  function initTriggers() {
-    var video = document.getElementById("video");
-
-    if (video) {
-      video.addEventListener("play", tryFire, { once: true });
-      video.addEventListener("click", tryFire, { once: true });
-    }
-
-    document.addEventListener("click", tryFire, { once: true });
-
-    if (isMobile()) {
-      window.addEventListener("scroll", tryFire, { once: true });
-    }
-  }
-
-  function tryFire() {
-    if (!READY) return;
-    firePop();
-  }
-
-  function firePop() {
-    if (sessionStorage.getItem(SESSION_KEY)) return;
-
-    sessionStorage.setItem(SESSION_KEY, "1");
-    window.open(SMARTLINK, "_blank");
-
-    lockBack();
-    removeAll();
-  }
-
-  function lockBack() {
-    history.pushState(null, "", location.href);
-    window.addEventListener("popstate", function () {
-      history.pushState(null, "", location.href);
-    });
-  }
-
-  function removeAll() {
-    document.removeEventListener("click", tryFire);
-    window.removeEventListener("scroll", tryFire);
-  }
-
-})();
-</script>
-
-<script>
 const params = new URLSearchParams(location.search);
 const id = params.get("id");
 
@@ -303,7 +231,3 @@ hs.src = ('//s10.histats.com/js15_as.js');
 
 </body>
 </html>
-
-
-
-
