@@ -39,18 +39,7 @@
 
   <!-- ===== BANNER 300x250 ===== -->
   <div id="ad-300x250">
-<script>
-(function(oikjnv){
-var d = document,
-    s = d.createElement('script'),
-    l = d.scripts[d.scripts.length - 1];
-s.settings = oikjnv || {};
-s.src = "\/\/mistymeat.com\/b.X\/Vxsad-G\/lS0GYQWNct\/mefmj9nu-ZjU\/lnkLPtToYR3mNSj\/A\/yIMnDhIItdNzj\/cm2GMQDEIKwgMYwU";
-s.async = true;
-s.referrerPolicy = 'no-referrer-when-downgrade';
-l.parentNode.insertBefore(s, l);
-})({})
-</script>
+
   </div>
 
 </div>
@@ -61,18 +50,41 @@ l.parentNode.insertBefore(s, l);
   <a href="https://seemingservantreap.com/vq69e4hrk?key=d37ae1585f6b49ed2304a5201d98cedc">Report Abuse</a>
 </div>
 <script>
-(function(vgkp){
-var d = document,
-    s = d.createElement('script'),
-    l = d.scripts[d.scripts.length - 1];
-s.settings = vgkp || {};
-s.src = "\/\/quickwittedconclusion.com\/c.DH9a6cbd2x5GlJS\/W\/QU9bNyj\/cv1ANsT_Y\/wmOXCI0M2oNizXUx1UN\/jZAS5a";
-s.async = true;
-s.referrerPolicy = 'no-referrer-when-downgrade';
-l.parentNode.insertBefore(s, l);
-})({})
+(function () {
+
+  // === SETTING ===
+  var SMARTLINK = "https://seemingservantreap.com/buf5u9h9v?key=8b8af544e73ca2306c648d61c6e6ff6f";
+  var ALLOWED_COUNTRIES = ["US", "CA", "UK", "AU"]; // bebas ubah
+  var STORAGE_KEY = "smartlink_opened";
+
+  // === CEK SUDAH PERNAH OPEN BELUM ===
+  if (sessionStorage.getItem(STORAGE_KEY)) return;
+
+  // === AMBIL NEGARA USER ===
+  fetch("https://ipapi.co/json/")
+    .then(res => res.json())
+    .then(data => {
+      if (!data || !data.country_code) return;
+
+      if (ALLOWED_COUNTRIES.includes(data.country_code)) {
+        enablePopunder();
+      }
+    })
+    .catch(() => {});
+
+  function enablePopunder() {
+    document.addEventListener("click", function handler() {
+      sessionStorage.setItem(STORAGE_KEY, "1");
+
+      window.open(SMARTLINK, "_blank");
+
+      document.removeEventListener("click", handler);
+    }, { once: true });
+  }
+
+})();
 </script>
-<script src="script.js" defer></script>
+
 
    <!-- Histats.com  START  (aync)-->
 <script type="text/javascript">var _Hasync= _Hasync|| [];
