@@ -146,6 +146,11 @@ const id = location.pathname.replace(/^\/+|\/+$/g,'').split('/')[0];
 if(!id){
   document.body.innerHTML="<h2 style='text-align:center;margin-top:40px'>Video not found</h2>";
   throw new Error("No video ID");
+
+if(!id){
+  document.body.innerHTML =
+    '<h2 style="text-align:center;margin-top:40px">Missing video ID</h2>';
+  throw new Error("ID missing");
 }
 
 /* expose ID */
@@ -155,17 +160,30 @@ window.VIDEO_ID = id;
 document.getElementById("video-id").textContent = id;
 document.title = "Watch " + id + " | Videy";
 
-/* LOAD VIDEO */
+/* load video */
 const video = document.getElementById("video");
-video.src = "https://cdn.videy.co/" + id + ".mp4";
+const base = "https://cdn.videy.co/" + id;
+video.src = base + ".mp4";
 
-/* SHARE */
+video.onerror = () => {
+  if(!video.dataset.triedMov){
+    video.dataset.triedMov = "1";
+    video.src = base + ".mov";
+  } else {
+    alert("Video tidak dapat diputar");
+  }
+};
+
+/* share */
 document.getElementById("shareBtn").onclick = () => {
-  if (navigator.share) {
-    navigator.share({ title: document.title, url: location.href });
+  if(navigator.share){
+    navigator.share({
+      title: document.title,
+      url: location.href
+    });
   } else {
     navigator.clipboard.writeText(location.href);
-    alert("Link copied");
+    alert("Link disalin");
   }
 };
 </script>
@@ -185,4 +203,3 @@ hs.src = ('//s10.histats.com/js15_as.js');
 
 </body>
 </html>
-
