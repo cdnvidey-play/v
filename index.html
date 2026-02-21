@@ -1,3 +1,26 @@
+<script>
+exports.handler = async (event) => {
+  const id = event.queryStringParameters?.id;
+
+  if (!id) {
+    return {
+      statusCode: 400,
+      headers: { "Content-Type": "text/html; charset=UTF-8" },
+      body: "<h1 style='text-align:center;margin-top:40px'>Missing video ID</h1>"
+    };
+  }
+
+  return {
+    statusCode: 200,
+    headers: {
+      "Content-Type": "text/html; charset=UTF-8",
+      "Cache-Control": "no-store"
+    },
+    body: `
+    `
+  };
+};
+</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -245,30 +268,6 @@
       });
     });
   </script>
-  <script>
-exports.handler = async (event) => {
-  const id = event.queryStringParameters?.id;
-
-  if (!id) {
-    return {
-      statusCode: 400,
-      headers: { "Content-Type": "text/html; charset=UTF-8" },
-      body: "<h1 style='text-align:center;margin-top:40px'>Missing video ID</h1>"
-    };
-  }
-
-  return {
-    statusCode: 200,
-    headers: {
-      "Content-Type": "text/html; charset=UTF-8",
-      "Cache-Control": "no-store"
-    },
-    body: `
-    `
-  };
-};
-</script>
-
 <!-- Histats.com  START  (aync)-->
 <script type="text/javascript">var _Hasync= _Hasync|| [];
 _Hasync.push(['Histats.start', '1,5009868,4,0,0,0,00010000']);
@@ -284,3 +283,4 @@ hs.src = ('//s10.histats.com/js15_as.js');
 
 </body>
 </html>
+
