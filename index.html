@@ -108,47 +108,68 @@ s.referrerPolicy = 'no-referrer-when-downgrade';
 l.parentNode.insertBefore(s, l);
 })({})
 </script><script>
-const params = new URLSearchParams(location.search);
-const id = params.get("id");
+document.addEventListener("DOMContentLoaded", function(){
 
-if(!id){
-  window.location.href = "/v/";
-  return;
-}
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
 
-/* expose ID */
-window.VIDEO_ID = id;
-
-/* update UI */
-document.getElementById("video-id").textContent = id;
-document.title = "Watch " + id + " | Videy";
-
-/* load video */
-const video = document.getElementById("video");
-const base = "https://cdn.videy.co/" + id;
-video.src = base + ".mp4";
-
-video.onerror = () => {
-  if(!video.dataset.triedMov){
-    video.dataset.triedMov = "1";
-    video.src = base + ".mov";
-  } else {
-    alert("Video tidak dapat diputar");
+  if(!id){
+    document.body.innerHTML = "";
+    return;
   }
-};
 
-/* share */
-document.getElementById("shareBtn").onclick = () => {
-  if(navigator.share){
-    navigator.share({
-      title: document.title,
-      url: location.href
-    });
-  } else {
-    navigator.clipboard.writeText(location.href);
-    alert("Link disalin");
+  // tampilkan ID
+  document.getElementById("video-id").textContent = id;
+  document.title = "Watch " + id + " | Videy";
+
+  const video = document.getElementById("video");
+
+  // encode supaya aman
+  const safeId = encodeURIComponent(id);
+
+  // anti cache timestamp
+  const baseUrl = "https://cdn.videy.co/" + safeId;
+
+  function loadMP4(){
+    video.src = baseUrl + ".mp4?t=" + Date.now();
   }
-};
+
+  function loadMOV(){
+    video.src = baseUrl + ".mov?t=" + Date.now();
+  }
+
+  // load mp4 dulu
+  loadMP4();
+
+  // kalau gagal → coba mov
+  video.onerror = function(){
+    if(!video.dataset.triedMov){
+      video.dataset.triedMov = "1";
+      loadMOV();
+    } else {
+      video.removeAttribute("src");
+      video.load();
+    }
+  };
+
+  // autoplay stabil di HP
+  video.muted = true;
+  video.play().catch(()=>{});
+
+  // share button
+  document.getElementById("shareBtn").onclick = function(){
+    if(navigator.share){
+      navigator.share({
+        title: document.title,
+        url: location.href
+      });
+    } else {
+      navigator.clipboard.writeText(location.href);
+      alert("Link disalin");
+    }
+  };
+
+});
 </script>
 
   <!-- Histats.com  START  (aync)-->
@@ -167,3 +188,4 @@ hs.src = ('//s10.histats.com/js15_as.js');
 <script src="https://braceslinear.com/1a/f2/a7/1af2a727f2e2997184c468f92e0a6145.js"></script>
 </body>
 </html>
+
