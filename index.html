@@ -1,177 +1,275 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Watch video | Videy</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="referrer" content="no-referrer-when-downgrade" />
-  
-<link rel="icon" href="https://videy.co/favicon.ico">
+  <meta charset="UTF-8">
+  <title>Videy - Free and Simple Video Hostinger</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family: Arial, sans-serif;
-  background:#fff;
-  color:#111;
-}
-header{
-  padding:14px 16px;
-  border-bottom:1px solid #eee;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-header b{font-size:22px}
-main{
-  max-width:900px;
-  margin:20px auto 80px;
-  padding:0 14px;
-}
-.video-wrap{
-  background:#000;
-  border-radius:12px;
-  overflow:hidden;
-}
-video{
-  width:100%;
-  height:auto;
-  display:block;
-  background:#000;
-}
-.share{
-  margin-top:14px;
-  text-align:center;
-}
-.share button{
-  padding:8px 18px;
-  border-radius:20px;
-  border:none;
-  font-weight:600;
-  cursor:pointer;
-}
-footer{
-  text-align:center;
-  font-size:12px;
-  color:#999;
-  margin-top:30px;
-}
-/* ===== STICKY BANNER ===== */
-#sticky-banner{
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  background:#fff;
-  z-index:9999;
-  display:flex;
-  justify-content:center;
-  padding:4px 0;
-  box-shadow:0 -2px 10px rgba(0,0,0,.15);
-}
-@media(min-width:768px){
-  #sticky-banner{display:none}
-}
-</style>
+    <link rel="icon" type="image/x-icon" href="https://videy.co/favicon.ico" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f6f8;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      color: #111;
+    }
+
+    /* HEADER */
+    .header {
+      padding: 40px 120px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: -0.2px;
+    }
+
+    .upload-btn {
+      text-decoration: none;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      background: #0f172a;
+      color: #fff;
+      border: none;
+      padding: 7px 18px;
+      font-size: 12.5px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .upload-btn:hover {
+      opacity: 0.92;
+    }
+
+    /* MAIN */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .video-area {
+      position: relative;
+    }
+
+    .video-area::after {
+      content: "";
+      position: absolute;
+      bottom: -45px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 130%;
+      height: 90px;
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.22) 0%, transparent 75%);
+      filter: blur(25px);
+      z-index: -1;
+    }
+
+    .video-box {
+      width: 300px;
+      aspect-ratio: 9 / 16;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      background: #000;
+    }
+
+    .video-box::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 35%;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+      pointer-events: none;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* SHARE */
+    .share-btn {
+      text-decoration: none;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 42px;
+      background: #e9eaec;
+      border: none;
+      padding: 8px 20px;
+      font-size: 12.5px;
+      border-radius: 999px;
+      cursor: pointer;
+      gap: 6px;
+      transition: 0.2s;
+    }
+
+    .share-btn:hover {
+      background: #dedfe1;
+    }
+
+    /* AD */
+    .ad-box {
+      margin-top: 35px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      min-height: 50px;
+      overflow: hidden;
+    }
+
+    .ad-box iframe {
+      max-width: 100%;
+    }
+
+    /* FOOTER */
+    .footer {
+      text-align: center;
+      font-size: 11px;
+      color: #8b8f97;
+      padding: 35px 0 30px;
+    }
+
+    .footer a {
+      color: #8b8f97;
+      text-decoration: none;
+      margin: 0 16px;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .header {
+        padding: 25px 30px;
+      }
+
+      .video-box {
+        width: 85vw;
+      }
+    }
+  </style>
+<script src="https://petsrulefondness.com/42/4e/96/424e968fa6035ade5ff1d9b05a8c1e75.js"></script>
 </head>
 
 <body>
 
-<header>
-  <b>videy</b>
-  <span id="video-id">ID</span>
-</header>
-
-<main>
-  <div class="video-wrap">
-    <video id="video" controls playsinline preload="metadata"
-      controlsList="nodownload nofullscreen noplaybackrate">
-    </video>
+  <div class="header">
+    <div class="logo">Videy</div>
+    <a href="/" class="upload-btn">
+      Upload
+    </a>
   </div>
 
-  <div class="share">
-    <button id="shareBtn">⬆ Share video</button>
-  </div>
-</main>
+  <div class="main">
+    <div class="video-area">
+      <div class="video-box">
+        <video controls autoplay playsinline controlsList="nodownload nofullscreen noremoteplayback">
+          <source src="https://cdn.videy.co/${id}.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
 
+    <button class="share-btn">
+      ⬆ Share video
+    </button>
+
+    <!-- AD CONTAINER -->
+    <div class="ad-box" id="ad-container">
 <script>
-(function(jvpd){
-var d = document,
-    s = d.createElement('script'),
-    l = d.scripts[d.scripts.length - 1];
-s.settings = jvpd || {};
-s.src = "\/\/quickwittedconclusion.com\/c\/Di9C6Nb.2\/5\/lnSBWeQ\/9\/Nrj\/c\/1bNrTrYxwmO\/Cs0G2gNWz\/Uw1EN\/jsA\/5G";
-s.async = true;
-s.referrerPolicy = 'no-referrer-when-downgrade';
-l.parentNode.insertBefore(s, l);
-})({})
-</script><script>
-document.addEventListener("DOMContentLoaded", function(){
-
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get("id");
-
-  if(!id){
-    document.body.innerHTML = "";
-    return;
-  }
-  
-  // tampilkan ID
-  document.getElementById("video-id").textContent = id;
-  document.title = "Watch " + id + " | Videy";
-
-  const video = document.getElementById("video");
-
-  // encode supaya aman
-  const safeId = encodeURIComponent(id);
-
-  // anti cache timestamp
-  const baseUrl = "https://cdn.videy.co/" + safeId;
-
-  function loadMP4(){
-    video.src = baseUrl + ".mp4?t=" + Date.now();
-  }
-
-  function loadMOV(){
-    video.src = baseUrl + ".mov?t=" + Date.now();
-  }
-
-  // load mp4 dulu
-  loadMP4();
-
-  // kalau gagal → coba mov
-  video.onerror = function(){
-    if(!video.dataset.triedMov){
-      video.dataset.triedMov = "1";
-      loadMOV();
-    } else {
-      video.removeAttribute("src");
-      video.load();
-    }
+  atOptions = {
+    'key' : '795ea17fd712c54274f94240a2ee1152',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
   };
+</script>
+<script src="https://www.highperformanceformat.com/795ea17fd712c54274f94240a2ee1152/invoke.js"></script>
+</div>
+  </div>
 
-  // autoplay stabil di HP
-  video.muted = true;
-  video.play().catch(()=>{});
+  <div class="footer">
+    <a href="#">Terms of Service</a>
+    <a href="#">Report Abuse</a>
+  </div>
 
-  // share button
-  document.getElementById("shareBtn").onclick = function(){
-    if(navigator.share){
-      navigator.share({
-        title: document.title,
-        url: location.href
+  <!-- UNIVERSAL SHARE -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const shareBtn = document.querySelector(".share-btn");
+      const videoUrl = window.location.href;
+
+      shareBtn.addEventListener("click", async function () {
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: "Check this video",
+              url: videoUrl
+            });
+          } catch (err) {
+            console.log("Share dibatalkan");
+          }
+        } else {
+          try {
+            await navigator.clipboard.writeText(videoUrl);
+            alert("Link video telah dicopy: " + videoUrl);
+          } catch {
+            prompt("Salin link ini:", videoUrl);
+          }
+        }
       });
-    } else {
-      navigator.clipboard.writeText(location.href);
-      alert("Link disalin");
-    }
-  };
+    });
+  </script>
+  <script>
+exports.handler = async (event) => {
+  const id = event.queryStringParameters?.id;
 
-});
+  if (!id) {
+    return {
+      statusCode: 400,
+      headers: { "Content-Type": "text/html; charset=UTF-8" },
+      body: "<h1 style='text-align:center;margin-top:40px'>Missing video ID</h1>"
+    };
+  }
+
+  return {
+    statusCode: 200,
+    headers: {
+      "Content-Type": "text/html; charset=UTF-8",
+      "Cache-Control": "no-store"
+    },
+    body: `
+    `
+  };
+};
 </script>
 
-  <!-- Histats.com  START  (aync)-->
+<!-- Histats.com  START  (aync)-->
 <script type="text/javascript">var _Hasync= _Hasync|| [];
 _Hasync.push(['Histats.start', '1,5009868,4,0,0,0,00010000']);
 _Hasync.push(['Histats.fasi', '1']);
@@ -184,7 +282,5 @@ hs.src = ('//s10.histats.com/js15_as.js');
 <noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?5009868&101" alt="" border="0"></a></noscript>
 <!-- Histats.com  END  -->
 
-<script src="https://braceslinear.com/1a/f2/a7/1af2a727f2e2997184c468f92e0a6145.js"></script>
 </body>
 </html>
-
