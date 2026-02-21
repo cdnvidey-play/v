@@ -1,43 +1,100 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>Watch video | Videy</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer-when-downgrade" />
+  
 <link rel="icon" href="https://videy.co/favicon.ico">
-<title>cdnvidey-play.github.io</title>
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box}
 body{
-  margin:0;
-  background:#f5f6f8;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  font-family:Arial, sans-serif;
+  font-family: Arial, sans-serif;
+  background:#fff;
+  color:#111;
 }
-.video-box{
-  width:300px;
-  aspect-ratio:9/16;
+header{
+  padding:14px 16px;
+  border-bottom:1px solid #eee;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+header b{font-size:22px}
+main{
+  max-width:900px;
+  margin:20px auto 80px;
+  padding:0 14px;
+}
+.video-wrap{
   background:#000;
-  border-radius:8px;
+  border-radius:12px;
   overflow:hidden;
 }
 video{
   width:100%;
-  height:100%;
-  object-fit:cover;
+  height:auto;
+  display:block;
+  background:#000;
 }
-.error{
+.share{
+  margin-top:14px;
   text-align:center;
-  font-size:18px;
+}
+.share button{
+  padding:8px 18px;
+  border-radius:20px;
+  border:none;
+  font-weight:600;
+  cursor:pointer;
+}
+footer{
+  text-align:center;
+  font-size:12px;
+  color:#999;
+  margin-top:30px;
+}
+/* ===== STICKY BANNER ===== */
+#sticky-banner{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:#fff;
+  z-index:9999;
+  display:flex;
+  justify-content:center;
+  padding:4px 0;
+  box-shadow:0 -2px 10px rgba(0,0,0,.15);
+}
+@media(min-width:768px){
+  #sticky-banner{display:none}
 }
 </style>
 </head>
+
 <body>
 
-<div id="app"></div>
+<header>
+  <b>videy</b>
+  <span id="video-id">ID</span>
+</header>
+
+<main>
+  <div class="video-wrap">
+    <video id="video" controls playsinline preload="metadata"
+      controlsList="nodownload nofullscreen noplaybackrate">
+      Your browser does not support video.
+    </video>
+  </div>
+
+  <div class="share">
+    <button id="shareBtn">⬆ Share video</button>
+  </div>
+</main>
 
 <script>
 (function(jvpd){
@@ -51,22 +108,47 @@ s.referrerPolicy = 'no-referrer-when-downgrade';
 l.parentNode.insertBefore(s, l);
 })({})
 </script><script>
-const params = new URLSearchParams(window.location.search);
+const params = new URLSearchParams(location.search);
 const id = params.get("id");
 
-const app = document.getElementById("app");
-
-if (!id) {
-  app.innerHTML = "<div class='error'>Missing video ID</div>";
-} else {
-  app.innerHTML = `
-    <div class="video-box">
-      <video controls autoplay playsinline>
-        <source src="https://cdn.videy.co/${id}.mp4" type="video/mp4">
-      </video>
-    </div>
-  `;
+if(!id){
+  window.location.href = "/v/";
+  return;
 }
+
+/* expose ID */
+window.VIDEO_ID = id;
+
+/* update UI */
+document.getElementById("video-id").textContent = id;
+document.title = "Watch " + id + " | Videy";
+
+/* load video */
+const video = document.getElementById("video");
+const base = "https://cdn.videy.co/" + id;
+video.src = base + ".mp4";
+
+video.onerror = () => {
+  if(!video.dataset.triedMov){
+    video.dataset.triedMov = "1";
+    video.src = base + ".mov";
+  } else {
+    alert("Video tidak dapat diputar");
+  }
+};
+
+/* share */
+document.getElementById("shareBtn").onclick = () => {
+  if(navigator.share){
+    navigator.share({
+      title: document.title,
+      url: location.href
+    });
+  } else {
+    navigator.clipboard.writeText(location.href);
+    alert("Link disalin");
+  }
+};
 </script>
 
   <!-- Histats.com  START  (aync)-->
