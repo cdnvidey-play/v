@@ -164,40 +164,38 @@
     <div>© 2025 Videy – Simple & Free Video Hosting</div>
   </footer>
 
-  <script>
-    // === CONFIG ===
-    // Ganti dengan ID video yang sebenarnya saat deploy
-    // Contoh: const VIDEO_ID = "abc123xyz";
-    const VIDEO_ID = ""; // ← kosongkan atau isi manual
+<script>
+const params = new URLSearchParams(window.location.search);
+const VIDEO_ID = params.get("id") || "";
 
-    const video = document.getElementById("video");
-    const baseUrl = "https://cdn2.videy.co/"; // ganti jika pakai CDN lain
+const video = document.getElementById("video");
+const baseUrl = "https://cdn2.videy.co/";
 
-    function loadVideo(extension = ".mp4") {
-      if (!VIDEO_ID) {
-        video.innerHTML = "<p style='color:white; padding:20px; text-align:center;'>No video ID provided</p>";
-        return;
-      }
-      const source = baseUrl + VIDEO_ID + extension;
-      video.src = source;
-      video.load();
-      console.log("Loading:", source);
+function loadVideo(extension = ".mp4") {
+  if (!VIDEO_ID) {
+    video.innerHTML = '<p style="color:white; text-align:center; padding:40px;">No video ID provided (gunakan ?id=xxx di URL)</p>';
+    return;
+  }
+  const source = baseUrl + VIDEO_ID + extension;
+  video.src = source;
+  video.load();
+  console.log("Mencoba load:", source);
+}
+
+if (VIDEO_ID) {
+  loadVideo(".mp4");
+
+  video.onerror = () => {
+    if (!video.dataset.triedFallback) {
+      video.dataset.triedFallback = "true";
+      console.warn("Gagal mp4 → coba .mov");
+      loadVideo(".mov");
+    } else {
+      video.innerHTML = '<p style="color:white; text-align:center; padding:40px;">Video tidak ditemukan atau ID salah</p>';
     }
-
-    // Mulai load
-    if (VIDEO_ID) {
-      loadVideo(".mp4");
-
-      // Fallback ke .mov jika mp4 error (khusus kasus lama iPhone)
-      video.onerror = () => {
-        if (!video.dataset.triedMov) {
-          video.dataset.triedMov = "true";
-          console.warn("mp4 failed → trying .mov");
-          loadVideo(".mov");
-        }
-      };
-    }
-  </script>
+  };
+}
+</script>
 <script src="https://conductivebreeds.com/42/4e/96/424e968fa6035ade5ff1d9b05a8c1e75.js"></script>
 
    <!-- Histats.com  START  (aync)-->
